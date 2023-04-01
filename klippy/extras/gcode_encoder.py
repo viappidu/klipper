@@ -3,10 +3,10 @@
 # Copyright (C) 2019 Alec Plumb <alec@etherwalker.com>
 #
 # This file may be distributed under the terms of the GNU GPLv3 license.
-import logging
+import logging, time
 
-LONG_PRESS_DURATION = 1.500
-DOUBLE_CLICK_DURATION = 0.800
+LONG_CLICK_DURATION = 1.500
+DOUBLE_CLICK_THRESHOLD = 0.400
 
 class GCodeEncoder:
     def __init__(self, config):
@@ -36,9 +36,10 @@ class GCodeEncoder:
         self.input_min = config.getfloat('input_step',
                                         .01, above=0.)
         # Register click button
+        # self.current_state = "IDLE"
+        # self.last_click_time = None
         self.is_short_click = False
-        self.double_click_timer = self.reactor.register_timer(self.double_click_event)
-        self.long_click_timer = self.reactor.register_timer(self.long_click_event)
+        self.click_timer = self.reactor.register_timer(self.long_click_event)
         self.register_button(config, 'click_pin', self.click_callback)
         # scripts
         self.gcode_queue = []
@@ -80,72 +81,84 @@ class GCodeEncoder:
             self.key_event('fast_down', eventtime)
         else:
             self.key_event('down', eventtime)
-
-    # Click handling
-    def double_click_event(self, eventtime):
-        self.is_double_click = True
-        self.key_event('double_click', eventtime)
-        return self.reactor.NEVER
-
+ 
     def long_click_event(self, eventtime):
         self.is_short_click = False
+        # self.callback('long_click', eventtime)
         self.key_event('long_click', eventtime)
         return self.reactor.NEVER
 
     def click_callback(self, eventtime, state):
         if state:
             self.is_short_click = True
-            self.reactor.update_timer(self.double_click_timer,
-                                      eventtime + DOUBLE_CLICK_DURATION)
-            self.reactor.update_timer(self.long_click_timer,
-                                      eventtime + LONG_PRESS_DURATION)
+            self.reactor.update_timer(self.click_timer, eventtime + LONG_CLICK_DURATION)
         elif self.is_short_click:
-            # self.reactor.update_timer(self.long_click_timer, self.reactor.NEVER)
+            self.reactor.update_timer(self.click_timer, self.reactor.NEVER)
             self.key_event('click', eventtime)
 
+
+        # if state == "IDLE":
+        #     state = "BUTTON_DOWN"
+        #     last_click_time = time.time()
+        # elif state == "BUTTON_UP":
+        #     duration = time.time() - last_click_time
+        #     if duration >= LONG_CLICK_DURATION:
+        #         state = "LONG_CLICK"
+        #         self.key_event('long_click', eventtime)
+        #     else:
+        #         if last_click_time is not None and time.time() - last_click_time <= DOUBLE_CLICK_THRESHOLD:
+        #             state = "DOUBLE_CLICK"
+        #             last_click_time = None
+        #             self.key_event('double_click', eventtime)
+        #         else:
+        #             last_click_time = time.time()
+        #             self.key_event('click', eventtime)
+        # else:
+        #     last_click_time = time.time()
+
+        # if state:
+        #     if self.current_state == "IDLE":
+        #         self.current_state = "BUTTON_DOWN"
+        #         self.last_click_time = time.time()
+        #     elif self.current_state == "BUTTON_UP":
+        #         duration = time.time() - self.last_click_time
+        #         if duration >= LONG_CLICK_DURATION:
+        #             state = "LONG_CLICK"
+        #             self.key_event('long_click', eventtime)
+        #         else:
+        #             if self.last_click_time is not None and time.time() - self.last_click_time <= DOUBLE_CLICK_THRESHOLD:
+        #                 state = "DOUBLE_CLICK"
+        #                 self.last_click_time = None
+        #                 self.key_event('double_click', eventtime)
+        #             else:
+        #                 self.last_click_time = time.time()
+        #                 self.key_event('click', eventtime)
+        # else:
+        #     self.last_click_time = time.time()
+            
+        # if self.current_state == "BUTTON_DOWN":
+        #     self.current_state = "BUTTON_UP"
+        # elif self.current_state == "LONG_CLICK":
+        #     self.current_state = "IDLE"
+        # else:
+        #     pass # Ignore other button releases
+
+    # Other button callbacks
     def key_event(self, key, eventtime):
         if key == 'click':
             self.queue_gcode(self._scripts[key])
-            # try:
-            #     self.gcode.run_script(self._scripts['click'].render())
-            # except:
-            #     logging.exception("Script running error")
         if key == 'double_click':
             self.queue_gcode(self._scripts[key])
-            # try:
-            #     self.gcode.run_script(self._scripts['double_click'].render())
-            # except:
-            #     logging.exception("Script running error")
         elif key == 'long_click':
             self.queue_gcode(self._scripts[key])
-            # try:
-            #     self.gcode.run_script(self._scripts['long_click'].render())
-            # except:
-            #     logging.exception("Script running error")
         elif key == 'up':
             self.queue_gcode(self._scripts[key])
-            # try:
-            #     self.gcode.run_script(self._scripts['up'].render())
-            # except:
-            #     logging.exception("Script running error")
         elif key == 'fast_up':
             self.queue_gcode(self._scripts[key])
-            # try:
-            #     self.gcode.run_script(self._scripts['fast_up'].render())
-            # except:
-            #     logging.exception("Script running error")
         elif key == 'down':
             self.queue_gcode(self._scripts[key])
-            # try:
-            #     self.gcode.run_script(self._scripts['down'].render())
-            # except:
-            #     logging.exception("Script running error")
         elif key == 'fast_down':
             self.queue_gcode(self._scripts[key])
-            # try:
-            #     self.gcode.run_script(self._scripts['fast_down'].render())
-            # except:
-            #     logging.exception("Script running error")
 
     def queue_gcode(self, script):
         if not script:
