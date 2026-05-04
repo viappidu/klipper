@@ -46,8 +46,8 @@
   
 
 
-  <script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-138371409-1","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){var e;this.value&&(e=document.location.pathname,ga("send","pageview",e+"?q="+this.value))}),"undefined"!=typeof location$&&location$.subscribe(function(e){ga("send","pageview",e.pathname)})})</script>
-  <script async src="https://www.google-analytics.com/analytics.js"></script>
+  <script>function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-VEN1PGNQL4"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&gtag("event","search",{search_term:this.value})}),"undefined"!=typeof location$&&location$.subscribe(function(e){gtag("config","G-VEN1PGNQL4",{page_path:e.pathname})})})</script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VEN1PGNQL4"></script>
 
 
     
@@ -408,10 +408,57 @@
   
   
   
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7_1" type="checkbox" id="__nav_7_1" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7_1">
+          Installation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Installation" data-md-level="2">
+        <label class="md-nav__title" for="__nav_7_1">
+          <span class="md-nav__icon md-icon"></span>
+          Installation
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
     <li class="md-nav__item">
       <a href="Installation.html" class="md-nav__link">
         Installation
       </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="OctoPrint.html" class="md-nav__link">
+        OctoPrint for Klipper
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
     </li>
   
 
@@ -1236,10 +1283,76 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Eddy Current Inductive probe
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="Eddy_Probe.html" class="md-nav__link md-nav__link--active">
         Eddy Current Inductive probe
       </a>
       
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#homing-correction-macros" class="md-nav__link">
+    Homing correction macros
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tap-calibration" class="md-nav__link">
+    Tap calibration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#thermal-drift-calibration" class="md-nav__link">
+    Thermal Drift Calibration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#errors-description" class="md-nav__link">
+    Errors description
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Load_Cell.html" class="md-nav__link">
+        Load Cells
+      </a>
     </li>
   
 
@@ -1286,6 +1399,42 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#homing-correction-macros" class="md-nav__link">
+    Homing correction macros
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tap-calibration" class="md-nav__link">
+    Tap calibration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#thermal-drift-calibration" class="md-nav__link">
+    Thermal Drift Calibration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#errors-description" class="md-nav__link">
+    Errors description
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1305,11 +1454,13 @@
 <p>This document describes how to use an
 <a href="https://en.wikipedia.org/wiki/Eddy_current">eddy current</a> inductive
 probe in Klipper.</p>
-<p>Currently, an eddy current probe can not be used for Z homing. The
-sensor can only be used for Z probing.</p>
+<p>Currently, an eddy current probe can not precisely home Z (i.e., <code>G28 Z</code>).
+The sensor can precisely do Z probing (i.e., <code>PROBE ...</code>).
+Look at the <a href="Eddy_Probe.html#homing-correction-macros">homing correction</a>
+for further details.</p>
 <p>Start by declaring a
 <a href="Config_Reference.html#probe_eddy_current">probe_eddy_current config section</a>
-in the printer.cfg file. It is recommended to set the <code>z_offset</code> to
+in the printer.cfg file. It is recommended to set <code>descend_z</code> to
 0.5mm. It is typical for the sensor to require an <code>x_offset</code> and
 <code>y_offset</code>. If these values are not known, one should estimate the
 values during initial calibration.</p>
@@ -1322,18 +1473,29 @@ named <code>[probe_eddy_current my_eddy_probe]</code> then one would run
 <code>LDC_CALIBRATE_DRIVE_CURRENT CHIP=my_eddy_probe</code>. This command should
 complete in a few seconds.  After it completes, issue a <code>SAVE_CONFIG</code>
 command to save the results to the printer.cfg and restart.</p>
-<p>The second step in calibration is to correlate the sensor readings to
+<p>Eddy current is used as a proximity/distance sensor (similar to a laser ruler).
+The second step in calibration is to correlate the sensor readings to
 the corresponding Z heights. Home the printer and navigate the
-toolhead so that the nozzle is near the center of the bed. Then run an
+toolhead so that the nozzle is near the center of the bed. Then run a
 <code>PROBE_EDDY_CURRENT_CALIBRATE CHIP=my_eddy_probe</code> command. Once the
 tool starts, follow the steps described at
 <a href="Bed_Level.html#the-paper-test">"the paper test"</a> to determine the
 actual distance between the nozzle and bed at the given location. Once
 those steps are complete one can <code>ACCEPT</code> the position. The tool will
-then move the the toolhead so that the sensor is above the point where
-the nozzle used to be and run a series of movements to correlate the
+then move the toolhead so that the sensor is above the point where the
+nozzle used to be and run a series of movements to correlate the
 sensor to Z positions. This will take a couple of minutes. After the
-tool completes, issue a <code>SAVE_CONFIG</code> command to save the results to
+tool completes it will output the sensor performance data:</p>
+<div class="highlight"><pre><span></span><code>probe_eddy_current: noise 0.000642mm, MAD_Hz=11.314 in 2525 queries
+Total frequency range: 45000.012 Hz
+z: 0.250 # noise 0.000200mm, MAD_Hz=11.000
+z: 0.530 # noise 0.000300mm, MAD_Hz=12.000
+z: 1.010 # noise 0.000400mm, MAD_Hz=14.000
+z: 2.010 # noise 0.000600mm, MAD_Hz=12.000
+z: 3.010 # noise 0.000700mm, MAD_Hz=9.000
+</code></pre></div>
+
+<p>issue a <code>SAVE_CONFIG</code> command to save the results to
 the printer.cfg and restart.</p>
 <p>After initial calibration it is a good idea to verify that the
 <code>x_offset</code> and <code>y_offset</code> are accurate. Follow the steps to
@@ -1349,6 +1511,251 @@ result in changes in reported Z height. Changes in either the bed
 surface temperature or sensor hardware temperature can skew the
 results. It is important that calibration and probing is only done
 when the printer is at a stable temperature.</p>
+<h2 id="homing-correction-macros">Homing correction macros<a class="headerlink" href="#homing-correction-macros" title="Permanent link">&para;</a></h2>
+<p>Because of current limitations, homing and probing
+are implemented differently for the eddy sensors.
+As a result, homing suffers from an offset error,
+while probing handles this correctly.</p>
+<p>To correct the homing offset.
+One can use the suggested macro inside the homing override or
+inside the starting G-Code.</p>
+<p><a href="Config_Reference.html#force_move">Force move</a> section
+have to be defined in the config.</p>
+<div class="highlight"><pre><span></span><code>[gcode_macro _RELOAD_Z_OFFSET_FROM_PROBE]
+gcode:
+  {% set Z = printer.toolhead.position.z %}
+  SET_KINEMATIC_POSITION Z={Z - printer.probe.last_probe_position.z}
+
+[gcode_macro SET_Z_FROM_PROBE]
+gcode:
+  {% set METHOD = params.METHOD | default(&quot;automatic&quot;) %}
+  PROBE METHOD={METHOD}
+  _RELOAD_Z_OFFSET_FROM_PROBE
+  G0 Z5
+</code></pre></div>
+
+<h2 id="tap-calibration">Tap calibration<a class="headerlink" href="#tap-calibration" title="Permanent link">&para;</a></h2>
+<p>Eddy current probes support a special kind of probing referred to as
+"tap" probing. This mechanism directs the toolhead to descend until
+the nozzle makes contact with the bed. That bed contact may cause a
+change in sensor measurements which can be detected and used to halt
+further downward movement. The nozzle is then lifted away from the bed
+and the sensor measurements during the lifting movement are analyzed
+to determine the location where the nozzle breaks contact with the
+bed.</p>
+<p>In order to utilize "tap" probing it is necessary to configure a
+<code>tap_threshold</code> parameter. This parameter determines when downward
+toolhead movement during a "tap" probe should be halted. A value too
+large could result in a nozzle/bed contact not detected, which could
+result in the nozzle crashing uncontrollably into the bed. A value too
+small could result in a "tap" probe attempt halting before making
+contact with the bed, which could result in wildly inaccurate probe
+results.</p>
+<p>The <code>PROBE_EDDY_CURRENT_TAP_CALIBRATE</code> command can be used to
+configure an appropriate <code>tap_threshold</code> value. This tool may be run
+after completing the main <code>PROBE_EDDY_CURRENT_CALIBRATE</code> calibration.
+Follow these steps to calibrate <code>tap_threshold</code>:</p>
+<ol>
+<li>
+<p>Verify that both the nozzle and bed are clean. Enable the printer,
+   home the printer, move the toolhead to a position near the center
+   of the bed, and make sure the nozzle is between 3 - 10 millimeters
+   from the bed.</p>
+</li>
+<li>
+<p>The next step involves commanding the nozzle to make contact with
+   the bed. This process always has some risks, so be prepared to
+   issue an emergency halt (<code>M112</code>) if the probing descent does not
+   stop after contacting the bed. When ready issue the following
+   command:
+   <code>PROBE_EDDY_CURRENT_TAP_CALIBRATE TAP=guess</code>
+   This command analyzes the data found during the main probe
+   calibration to make an initial coarse guess for the tap_threshold
+   value and it then performs the corresponding "tap" probe. Ideally
+   the above command will cause the probe to descend until it hits the
+   bed, lift away from the bed, and then report a valid probe result.
+   If not, see the paragraphs at the end of this section to
+   troubleshoot. If the attempt was successful then continue to the
+   next step.</p>
+</li>
+<li>
+<p>The next step is to run another tap probe with a "refined"
+   threshold setting. The tool utilizes information gathered during a
+   previous successful tap probe to determine this improved threshold.
+   Make sure that the nozzle is near the center of the bed, that it is
+   between 3 - 10mm above the bed, be ready to issue an emergency
+   halt, and then run the following command:
+   <code>PROBE_EDDY_CURRENT_TAP_CALIBRATE TAP=refine</code>
+   Ideally this command will also succeed; if not, see the paragraphs
+   at the end of this section to troubleshoot. If the attempt was
+   successful then continue to the next step.</p>
+</li>
+<li>
+<p>If probing with the refined threshold is successful then the next
+   test is to verify that it is stable over multiple probe attempts.
+   Make sure that the nozzle is near the center of the bed, that it is
+   between 3 - 10mm above the bed, be ready to issue an emergency
+   halt, and then run the following command:
+   <code>PROBE_EDDY_CURRENT_TAP_CALIBRATE TAP=verify</code>
+   This command will probe the bed five times in a row. Ideally the
+   above command will also succeed; if not, see the paragraphs at the
+   end of this section to troubleshoot. If the attempt was successful
+   then continue to the next step.</p>
+</li>
+<li>
+<p>If all of the above steps are successful then one can issue a
+   <code>SAVE_CONFIG</code> command to save the "tap_threshold" parameter to the
+   printer.cfg file. Calibration should now be complete.</p>
+</li>
+</ol>
+<p>If any of the steps above did not succeed then it may be necessary to
+troubleshoot and manually determine an appropriate <code>tap_threshold</code>.
+This is done by running commands of the form:
+<code>PROBE METHOD=tap TAP_THRESHOLD=&lt;value&gt;</code>
+Where <code>&lt;value&gt;</code> is a threshold to test.</p>
+<p>In general, if a probe attempt halts before making contact with the
+bed, then this indicates that the provided <code>TAP_THRESHOLD</code> parameter
+is too low. Try increasing it by about 10% and retry. Similarly, if a
+probe attempt does not halt after making contact with the bed then it
+indicates that <code>TAP_THRESHOLD</code> is too high. Consider decreasing the
+attempted value in half.</p>
+<p>If the automated calibration tool failed during the initial "guess"
+stage, then one can use the tap_threshold value reported by the tool
+as a starting point for manual attempts. Once a successful probe
+attempt is completed then one can return to the main steps described
+above starting at the "refine" stage.</p>
+<h2 id="thermal-drift-calibration">Thermal Drift Calibration<a class="headerlink" href="#thermal-drift-calibration" title="Permanent link">&para;</a></h2>
+<p>As with all inductive probes, eddy current probes are subject to
+significant thermal drift.  If the eddy probe has a temperature
+sensor on the coil it is possible to configure a <code>[temperature_probe]</code>
+to report coil temperature and enable software drift compensation. To
+link a temperature probe to an eddy current probe the
+<code>[temperature_probe]</code> section must share a name with the
+<code>[probe_eddy_current]</code> section.  For example:</p>
+<div class="highlight"><pre><span></span><code>[probe_eddy_current my_probe]
+# eddy probe configuration...
+
+[temperature_probe my_probe]
+# temperature probe configuration...
+</code></pre></div>
+
+<p>See the <a href="Config_Reference.html#temperature_probe">configuration reference</a>
+for further details on how to configure a <code>temperature_probe</code>.  It is
+advised to configure the <code>calibration_position</code>,
+<code>calibration_extruder_temp</code>, <code>extruder_heating_z</code>, and
+<code>calibration_bed_temp</code> options, as doing so will automate some of the
+steps outlined below.  If the printer to be calibrated is enclosed, it
+is strongly recommended to set the <code>max_validation_temp</code> option to a value
+between 100 and 120.</p>
+<p>Eddy probe manufacturers may offer a stock drift calibration that can be
+manually added to <code>drift_calibration</code> option of the <code>[probe_eddy_current]</code>
+section. If they do not, or if the stock calibration does not perform well on
+your system, the <code>temperature_probe</code> module offers a manual calibration
+procedure via the <code>TEMPERATURE_PROBE_CALIBRATE</code> gcode command.</p>
+<p>Prior to performing calibration the user should have an idea of what the
+maximum attainable temperature probe coil temperature is.  This temperature
+should be used to set the <code>TARGET</code> parameter of the
+<code>TEMPERATURE_PROBE_CALIBRATE</code> command.  The goal is to calibrate across the
+widest temperature range possible, thus its desirable to start with the printer
+cold and finish with the coil at the maximum temperature it can reach.</p>
+<p>Once a <code>[temperature_probe]</code> is configured, the following steps may be taken
+to perform thermal drift calibration:</p>
+<ul>
+<li>The probe must be calibrated using <code>PROBE_EDDY_CURRENT_CALIBRATE</code>
+  when a <code>[temperature_probe]</code> is configured and linked.  This captures
+  the temperature during calibration which is necessary to perform
+  thermal drift compensation.</li>
+<li>Make sure the nozzle is free of debris and filament.</li>
+<li>The bed, nozzle, and probe coil should be cold prior to calibration.</li>
+<li>The following steps are required if the <code>calibration_position</code>,
+  <code>calibration_extruder_temp</code>, and <code>extruder_heating_z</code> options in
+  <code>[temperature_probe]</code> are <strong>NOT</strong> configured:<ul>
+<li>Move the tool to the center of the bed.  Z should be 30mm+ above the bed.</li>
+<li>Heat the extruder to a temperature above the maximum safe bed temperature.
+  150-170C should be sufficient for most configurations.  The purpose of
+  heating the extruder is to avoid nozzle expansion during calibration.</li>
+<li>When the extruder temperature has settled, move the Z axis down to about 1mm
+  above the bed.</li>
+</ul>
+</li>
+<li>Start drift calibration.  If the probe's name is <code>my_probe</code> and the maximum
+  probe temperature we can achieve is 80C, the appropriate gcode command is
+  <code>TEMPERATURE_PROBE_CALIBRATE PROBE=my_probe TARGET=80</code>.  If configured, the
+  tool will move to the X,Y coordinate specified by the <code>calibration_position</code>
+  and the Z value specified by <code>extruder_heating_z</code>.  After heating the extruder
+  to the specified temperature the tool will move to the Z value specified
+  by the<code>calibration_position</code>.</li>
+<li>The procedure will request a manual probe.  Perform the manual probe with
+  the paper test and <code>ACCEPT</code>.  The calibration procedure will take the first
+  set of samples with the probe then park the probe in the heating position.</li>
+<li>If the <code>calibration_bed_temp</code> is <strong>NOT</strong> configured turn on the bed heat
+  to the maximum safe temperature.  Otherwise this step will be performed
+  automatically.</li>
+<li>By default the calibration procedure will request a manual probe every
+  2C between samples until the <code>TARGET</code> is reached.  The temperature delta
+  between samples can be customized by setting the <code>STEP</code> parameter in
+  <code>TEMPERATURE_PROBE_CALIBRATE</code>.  Care should be taken when setting a custom
+  <code>STEP</code> value, a value too high may request too few samples resulting in
+  a poor calibration.</li>
+<li>The following additional gcode commands are available during drift
+  calibration:<ul>
+<li><code>TEMPERATURE_PROBE_NEXT</code> may be used to force a new sample before the step
+  delta has been reached.</li>
+<li><code>TEMPERATURE_PROBE_COMPLETE</code> may be used to complete calibration before the
+  <code>TARGET</code> has been reached.</li>
+<li><code>ABORT</code> may be used to end calibration and discard results.</li>
+</ul>
+</li>
+<li>When calibration is finished use <code>SAVE_CONFIG</code> to store the drift
+  calibration.</li>
+</ul>
+<p>As one may conclude, the calibration process outlined above is more challenging
+and time consuming than most other procedures.  It may require practice and several attempts to achieve an optimal calibration.</p>
+<h2 id="errors-description">Errors description<a class="headerlink" href="#errors-description" title="Permanent link">&para;</a></h2>
+<p>Possible homing errors and actionables:</p>
+<ul>
+<li>Sensor error<ul>
+<li>Check logs for detailed error</li>
+</ul>
+</li>
+<li>Eddy I2C STATUS/DATA error.<ul>
+<li>Check loose wiring.</li>
+<li>Try software I2C/decrease I2C rate</li>
+</ul>
+</li>
+<li>Invalid read data<ul>
+<li>Same as I2C</li>
+</ul>
+</li>
+</ul>
+<p>Possible sensor errors and actionables:</p>
+<ul>
+<li>Frequency over valid hard range<ul>
+<li>Check frequency configuration</li>
+<li>Hardware fault</li>
+</ul>
+</li>
+<li>Frequency over valid soft range<ul>
+<li>Check frequency configuration</li>
+</ul>
+</li>
+<li>Conversion Watchdog timeout<ul>
+<li>Hardware fault</li>
+</ul>
+</li>
+</ul>
+<p>Amplitude Low/High warning messages can mean:</p>
+<ul>
+<li>Sensor close to the bed</li>
+<li>Sensor far from the bed</li>
+<li>Higher temperature than was at the current calibration</li>
+<li>Capacitor missing</li>
+</ul>
+<p>On some sensors, it is not possible to completely avoid amplitude
+warning indicator.</p>
+<p>You can try to redo the <code>LDC_CALIBRATE_DRIVE_CURRENT</code> calibration at work
+temperature or increase <code>reg_drive_current</code> by 1-2 from the calibrated value.</p>
+<p>Generally, it is like an engine check light. It may indicate an issue.</p>
 
               
             </article>
@@ -1383,13 +1790,13 @@ when the printer is at a stable temperature.</p>
       
       
         
-        <a href="Sponsors.html" class="md-footer__link md-footer__link--next" aria-label="Next: Sponsors" rel="next">
+        <a href="Load_Cell.html" class="md-footer__link md-footer__link--next" aria-label="Next: Load Cells" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Sponsors
+              Load Cells
             </div>
           </div>
           <div class="md-footer__button md-icon">
